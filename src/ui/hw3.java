@@ -72,6 +72,8 @@ public class hw3 {
     private JPanel CountryPanel;
     private JPanel FilmingPanel;
     private JButton LoadButton;
+    private JPanel LoadPanel;
+    private JLabel FirstStepLabel;
 
     /*
      * global variable
@@ -175,7 +177,7 @@ public class hw3 {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            //closeConnect(conn);
+            //closeConnect();
         }
 
         return result;
@@ -337,19 +339,20 @@ public class hw3 {
             StringBuilder sb = new StringBuilder();
             // prepare query command
             sb.append("SELECT DISTINCT country\n");
-            sb.append("FROM movie_countries loc,\n");
+            sb.append("FROM movie_countries loc, ");
             sb.append("(");
             sb.append("SELECT movieID, LISTAGG(genre, ',') WITHIN GROUP (ORDER BY genre) AS Genres\n");
             sb.append("FROM movie_genres\n");
-            sb.append("GROUP BY movieID) type\n");
-            sb.append("WHERE type.movieID = loc.movieID AND ");
+            sb.append("GROUP BY movieID) select_genre\n");
+            sb.append("WHERE select_genre.movieID = loc.movieID AND ");
             for (int i = 0; i < checkList.size(); i++) {
                 if (i == 0) {
-                    sb.append("type.genre LIKE '%" + checkList.get(i) + "%'\n");
+                    sb.append("select_genre.Genres LIKE '%" + checkList.get(i) + "%'\n");
                 } else {
-                    sb.append("AND type.genre LIKE '%" + checkList.get(i) + "%'\n");
+                    sb.append("AND select_genre.Genres LIKE '%" + checkList.get(i) + "%'\n");
                 }
             }
+            GenerateSQLCmdTextArea.setText(sb.toString());
             // connection DB and execute query command
             try {
                 result = executeQuery(sb.toString());
@@ -490,7 +493,7 @@ public class hw3 {
         CountryLabel.setText("Country");
         TopPanel.add(CountryLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         FilmingLabel = new JLabel();
-        FilmingLabel.setText("Filming Location");
+        FilmingLabel.setText("Filming\nLocation");
         TopPanel.add(FilmingLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         OptionLabel = new JLabel();
         OptionLabel.setText("Option");
@@ -517,8 +520,8 @@ public class hw3 {
         ConditionComboBox.setModel(defaultComboBoxModel1);
         ConditionPanel.add(ConditionComboBox, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         NoteLabel = new JLabel();
-        NoteLabel.setText("Default is OR");
-        ConditionPanel.add(NoteLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        NoteLabel.setText("Step2: Select (Default is OR)");
+        ConditionPanel.add(NoteLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ExecutePanel = new JPanel();
         ExecutePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         SearchPanel.add(ExecutePanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -526,9 +529,16 @@ public class hw3 {
         ExecuteButton = new JButton();
         ExecuteButton.setText("Execute");
         ExecutePanel.add(ExecuteButton, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        LoadPanel = new JPanel();
+        LoadPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        SearchPanel.add(LoadPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        LoadPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         LoadButton = new JButton();
-        LoadButton.setText("LoadData");
-        SearchPanel.add(LoadButton, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        LoadButton.setText("Load Data");
+        LoadPanel.add(LoadButton, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        FirstStepLabel = new JLabel();
+        FirstStepLabel.setText("Step1: Click Load Data");
+        LoadPanel.add(FirstStepLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ResultTableScrollPanel = new JScrollPane();
         ButtomPanel.add(ResultTableScrollPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         ResultTableScrollPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
