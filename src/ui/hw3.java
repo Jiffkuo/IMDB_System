@@ -1,7 +1,7 @@
 package ui;
 
 import oracle.jdbc.OracleDriver;
-import sun.jvm.hotspot.gc_interface.GCName;
+//import sun.jvm.hotspot.gc_interface.GCName;
 
 import javax.swing.*;
 import java.awt.*;
@@ -332,7 +332,7 @@ public class hw3 {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "orcl"; // Win: xe, MAC: orcl
+        String dbName = "xe"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
@@ -648,17 +648,20 @@ public class hw3 {
             StringBuilder sb = new StringBuilder();
             // prepare query command
             sb.append("SELECT DISTINCT location1\n");
-            sb.append("FROM movie_countries cut, movie_locations loc, ");
+            sb.append("FROM movie_countries cty, movie_locations loc, ");
             sb.append("(");
             sb.append("SELECT movieID, LISTAGG(genre, ',') WITHIN GROUP (ORDER BY genre) AS Genres\n");
             sb.append("FROM movie_genres\n");
             sb.append("GROUP BY movieID) select_genre\n");
-            sb.append("WHERE select_genre.movieID = cut.movieID AND cut.movieID = loc.movieID AND ");
+            sb.append("WHERE select_genre.movieID = cty.movieID AND cty.movieID = loc.movieID AND ");
             for (int i = 0; i < checkGenreList.size(); i++) {
                 if (i == 0) {
                     sb.append("select_genre.Genres LIKE '%" + checkGenreList.get(i) + "%'\n");
                 } else {
                     sb.append("AND select_genre.Genres LIKE '%" + checkGenreList.get(i) + "%'\n");
+                }
+                for (int j = 0; j < checkCountryList.size(); j++) {
+                    sb.append("AND cty.country LIKE '%" + checkCountryList.get(i) + "%'\n");
                 }
             }
             GenerateSQLCmdTextArea.setText(sb.toString());
