@@ -10,7 +10,7 @@ import java.util.TimeZone;
  * Purpose: populate dat file and insert into Oracle DB
  */
 public class Populate {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Populate gen = new Populate();
         gen.execute(args);
         System.out.println("Finished connection");
@@ -19,11 +19,11 @@ public class Populate {
     /*
      * The skeleton code of database access
      */
-    public void execute(String[] args) throws IOException {
+    public void execute(String[] args) {
         Connection conn = null;
-        ResultSet result = null;
         try {
             // build connect
+            System.out.println("DB server connecting...");
             conn = openConnect();
             System.out.println("DB server connection successfully");
             // publish data for each input file
@@ -38,6 +38,8 @@ public class Populate {
             System.err.println("[Error]: Errors occurs when connecting to the database server: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             System.err.println("[Error]: Cannot find the database driver");
+        } catch (IOException io) {
+            io.printStackTrace();
         } finally {
             closeConnect(conn);
         }
@@ -54,7 +56,7 @@ public class Populate {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "orcl"; // Win: xe, MAC: orcl
+        String dbName = "xe"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
