@@ -471,7 +471,7 @@ public class hw3 {
 
         System.out.println("Start to load all Genres data");
         try {
-            String query = "SELECT DISTINCT genre\n" + "FROM movie_genres\n";
+            String query = "SELECT DISTINCT genre\n" + "FROM movie_genres\n" + "ORDER BY genre";
             result = executeQuery(query);
             updateGenresPanel(result);
             /*
@@ -729,7 +729,7 @@ public class hw3 {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "orcl"; // Win: xe, MAC: orcl
+        String dbName = "xe"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
@@ -799,14 +799,15 @@ public class hw3 {
         for (JCheckBox cb : selectedGenres) {
             if (cb.isSelected()) {
                 if (sb.length() == 0) {
-                    sb.append("G.Genre LIKE '%" + cb.getText() + "%' ");
+                    sb.append("(G.Genre LIKE '%" + cb.getText() + "%' ");
                 } else {
+                    //sb.append(searchCondition + " G.Genre LIKE '%" + cb.getText() + "%' ");
                     sb.append(searchCondition + " G.Genre LIKE '%" + cb.getText() + "%' ");
                 }
             }
         }
         if (sb.length() != 0) {
-            sb.append("\n");
+            sb.append(")\n");
         }
         return sb.toString();
     }
@@ -819,7 +820,8 @@ public class hw3 {
         String prefix = " (";
         for (JCheckBox cb : selectedFilmCountries) {
             if (cb.isSelected()) {
-                sb.append(searchCondition + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
+                //sb.append(searchCondition + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
+                sb.append("AND" + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
                 prefix = " ";
             }
         }
@@ -838,7 +840,8 @@ public class hw3 {
         for (JCheckBox cb : selectedCountries) {
             if (cb.isSelected()) {
                 if (sb.length() == 0) {
-                    sb.append(searchCondition + prefix + "C.country = '" + cb.getText() + "' ");
+                    //sb.append(searchCondition + prefix + "C.country = '" + cb.getText() + "' ");
+                    sb.append("AND" + prefix + "C.country = '" + cb.getText() + "' ");
                 } else {
                     // Assume one movie can be only produced by one country
                     sb.append("OR" + prefix + "C.country = '" + cb.getText() + "' ");
@@ -854,7 +857,7 @@ public class hw3 {
 
     /*
      * Collect All Query request from each Panel
-     * TODO:  AND//OR also for  different tables?  e.g. between genres , countries and so on
+     * Use AND to all query condition e.g. AND between genres , countries and so on
      */
     private String collectAllQueryRequest() {
         StringBuilder select = new StringBuilder();
@@ -862,7 +865,7 @@ public class hw3 {
         StringBuilder where = new StringBuilder();
 
         // set up select part
-        select.append("SELECT DISTINCT title, G.genre as genre, year, country, L.LOC AS filmingLoc,\n");
+        select.append("SELECT DISTINCT title, G.genre as genre, year, C.country, L.LOC AS filmingLoc,\n");
         // use SQL to calculate average
         select.append("TRUNC((rtAllCriticsRating+rtTopCriticsRating+rtaudienceRating)/3, 2) AS AvgRating,\n");
         select.append("TRUNC((rtAllCriticsNumReviews+rtTopCriticsNumReviews+rtAudienceNumRatings)/3, 2) AS AvgReviews\n");
@@ -871,12 +874,13 @@ public class hw3 {
         // one movie can be more than one filming location country
         from.append("(SELECT DISTINCT movieID, LISTAGG(location1, ',') WITHIN GROUP (ORDER BY location1) AS LOC\n");
         from.append("FROM (SELECT DISTINCT location1, movieID FROM movie_locations) LOC2\n");
-        from.append("GROUP BY movieID) L, movie_countries C,\n");
+        from.append("GROUP BY LOC2.movieID) L, movie_countries C,\n");
         // one movie can be more than one genre
-        from.append("(SELECT movieID, LISTAGG(genre, ', ') WITHIN GROUP (ORDER BY genre) AS Genre\n");
-        from.append("FROM movie_genres GROUP BY movieID) G\n");
+        from.append("(SELECT DISTINCT movieID, LISTAGG(genre, ', ') WITHIN GROUP (ORDER BY genre) AS Genre\n");
+        from.append("FROM movie_genres GROUP BY movie_genres.movieID) G\n");
         // set up where part
-        where.append("WHERE M.movieID = C.movieID AND M.movieID = G.movieID AND M.movieID = L.movieID ");
+        where.append("WHERE M.movieID = G.movieID AND M.movieID = C.movieID AND ");
+        where.append("G.movieID = C.movieID AND C.movieID = L.movieID ");
         // combine other query information
         if (selectedGenres.size() != 0) {
             where.append("AND (\n");
@@ -932,7 +936,8 @@ public class hw3 {
                     sb.append(searchCondition + " select_genre.Genres LIKE '%" + checkList.get(i) + "%'\n");
                 }
             }
-            sb.append(")");
+            sb.append(")\n");
+            sb.append("ORDER BY country");
             GenerateSQLCmdTextArea.setText(sb.toString());
             // connection DB and execute query command
             try {
@@ -1003,7 +1008,8 @@ public class hw3 {
                     sb.append(searchCondition + " cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
                 }
             }
-            sb.append(")");
+            sb.append(")\n");
+            sb.append("ORDER BY location1");
             GenerateSQLCmdTextArea.setText(sb.toString());
             // connection DB and execute query command
             try {
@@ -1037,13 +1043,15 @@ public class hw3 {
         sb.append("FROM movie_genres GROUP BY movieID) G\n");
         // specify Movie
         sb.append("WHERE M.movieID = MT.movieID AND MT.tagID = T.tagID\n");
-        // specify Rating, Reveiw and Year condition
+        // specify Rating, Review and Year condition
         sb.append("AND M.rtAllCriticsRating " + criticRating + " " + criticValue + " ");
         sb.append("AND M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + " ");
         sb.append("AND M.year >= " + yearFrom + " AND M.year <= " + yearTo);
         sb.append("\n");
         // specify genres, countries and locations
-        sb.append("AND M.movieID = C.movieID AND M.movieID = G.movieID AND M.movieID = L.movieID ");
+        sb.append("AND M.movieID = G.movieID AND M.movieID = C.movieID ");
+        sb.append("AND G.movieID = C.movieID AND C.movieID = L.movieID ");
+        //sb.append("AND M.movieID = C.movieID AND M.movieID = G.movieID AND G.movieID = C.movieID ");
         // combine other query information
         if (selectedGenres.size() != 0) {
             sb.append("AND (\n");
@@ -1053,7 +1061,6 @@ public class hw3 {
         // show the query command
         GenerateSQLCmdTextArea.setText(sb.toString());
         // connection DB and execute query command
-        result = executeQuery(sb.toString());
         try {
             result = executeQuery(sb.toString());
             String prefix = "";
