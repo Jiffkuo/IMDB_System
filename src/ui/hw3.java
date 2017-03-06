@@ -452,6 +452,11 @@ public class hw3 {
     }
 
     // entry function
+    public static void main(String[] args) {
+        hw3 entry = new hw3();
+        entry.startQueryEngine();
+    }
+
     public void startQueryEngine() {
         // initialize UI framework
         JFrame frame = new JFrame("hw3");
@@ -461,7 +466,7 @@ public class hw3 {
         frame.setVisible(true);
 
         performLoadButton();
-        while (true) ;
+        //while (true) ;
     }
 
     /*
@@ -934,10 +939,10 @@ public class hw3 {
         from.append("FROM movie_genres GROUP BY movie_genres.movieID) G\n");
         // movie_tags and tags table
         from.append("LEFT OUTER JOIN\n");
-        from.append("(SELECT movieID, tagWeight, value\n");
+        from.append("(SELECT DISTINCT movieID, tagWeight, value\n");
         from.append("FROM movie_tags mt, tags t\n");
         from.append("WHERE mt.tagID = t.tagID\n");
-        from.append("GROUP BY movieID) MT on MT.movieID = M.movieID\n");
+        from.append(") MT on MT.movieID = G.movieID\n");
         // set up where part
         where.append("WHERE M.movieID = G.movieID AND M.movieID = C.movieID AND ");
         where.append("G.movieID = C.movieID AND C.movieID = L.movieID ");
@@ -1065,9 +1070,11 @@ public class hw3 {
             for (int j = 0; j < checkCountryList.size(); j++) {
                 if (j == 0) {
                     sb.append("(");
-                    sb.append("cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
+                    //sb.append("cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
+                    sb.append("cty.country = '" + checkCountryList.get(j) + "'\n");
                 } else {
-                    sb.append(searchCondition + " cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
+                    //sb.append(searchCondition + " cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
+                    sb.append(searchCondition + " cty.country = '" + checkCountryList.get(j) + "'\n");
                 }
             }
             sb.append(")\n");
