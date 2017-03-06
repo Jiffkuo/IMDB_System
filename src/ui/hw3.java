@@ -51,7 +51,6 @@ public class hw3 {
     private JLabel RatingsLabel;
     private JLabel RatingValueLabel;
     private JLabel TagLabel;
-    private JTextArea MovieTagValueTextArea;
     private JComboBox WeightComboBox;
     private JTextField WeightValueTextField;
     private JLabel WeightLabel;
@@ -80,6 +79,7 @@ public class hw3 {
     private JLabel ReviewValueLabel;
     private JLabel ReviewLabel;
     private JPanel ReviewPanel;
+    private JTable TagTable;
 
     /*
      * global variable
@@ -212,10 +212,10 @@ public class hw3 {
         TagLabel = new JLabel();
         TagLabel.setText("Movie Tag Values");
         TagPanel.add(TagLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        MovieTagValueTextArea = new JTextArea();
-        MovieTagValueTextArea.setEditable(false);
-        MovieTagValueTextArea.setLineWrap(true);
-        TagPanel.add(MovieTagValueTextArea, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        TagTable = new JTable();
+        TagTable.setAutoResizeMode(4);
+        TagTable.setFillsViewportHeight(true);
+        TagPanel.add(TagTable, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         WeightPanel = new JPanel();
         WeightPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         MovieTagPanel.add(WeightPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -237,7 +237,7 @@ public class hw3 {
         CountryLabel.setText("Country");
         TopPanel.add(CountryLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         FilmingLabel = new JLabel();
-        FilmingLabel.setText("Filming\nLocation");
+        FilmingLabel.setText("Filming Location");
         TopPanel.add(FilmingLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         OptionLabel = new JLabel();
         OptionLabel.setText("Option");
@@ -405,12 +405,17 @@ public class hw3 {
      */
     private void performConditionComboBox(ActionEvent e) {
         searchCondition = ConditionComboBox.getSelectedItem().toString();
+        /*
         if (searchCondition == "OR") {
             loadAllCountry();
             loadAllFilmCountry();
         } else if (searchCondition == "AND") {
-            loadANDCountry();
-            loadANDFilmCountry();
+            loadCountry();
+            loadFilmCountry();
+        } */
+        if (searchCondition == "OR" || searchCondition == "AND") {
+            loadCountry();
+            loadFilmCountry();
         } else {
             System.err.println("[Error]: Cannot find condition: " + searchCondition);
         }
@@ -452,7 +457,7 @@ public class hw3 {
                 numOfRow++;
                 tModel.addRow(objects);
             }
-            if (numOfRow == 0) {
+            if (numOfRow == 1) {
                 JOptionPane.showMessageDialog(null, "No data found in DB based on the query conditions");
             }
         } catch (SQLException e) {
@@ -486,7 +491,8 @@ public class hw3 {
      */
     private void updateGenresPanel(ResultSet result) throws SQLException {
         while (result.next()) {
-            GenrePanel.setLayout(new GridLayout(0, 5, 20, 20));
+            GenrePanel.setLayout(new GridLayout(0, 1));
+            //GenrePanel.setLayout(new GridLayout(0, 5, 20, 20));
             JCheckBox cb = new JCheckBox(result.getString(1));
             cb.addActionListener(new ActionListener() {
                 @Override
@@ -495,11 +501,11 @@ public class hw3 {
                     if (searchCondition == "OR") {
                         loadAllCountry();
                     } else if (searchCondition == "AND") {
-                        loadANDCountry();
+                        loadCountry();
                     }
                     */
                     // according 3) the countries matching the genres selections will be listed
-                    loadANDCountry();
+                    loadCountry();
                 }
             });
             // add all queried genres JCheckbox to global variable
@@ -529,10 +535,10 @@ public class hw3 {
                         if (searchCondition == "OR") {
                             loadAllFilmCountry();
                         } else if (searchCondition == "AND") {
-                            loadANDFilmCountry();
+                            loadFilmCountry();
                         }
                         */
-                        loadANDFilmCountry();
+                        loadFilmCountry();
                     }
                 });
                 selectedCountries.add(cb);
@@ -569,7 +575,7 @@ public class hw3 {
             cb.setVisible(false);
             GenrePanel.remove(cb);
         }
-        // clean global list and update CountryPanel
+        // clean global list and update GenrePanel
         selectedGenres.clear();
         GenrePanel.updateUI();
     }
@@ -595,7 +601,7 @@ public class hw3 {
             cb.setVisible(false);
             FilmingPanel.remove(cb);
         }
-        // clean global list and update CountryPanel
+        // clean global list and update FilmPanel
         selectedFilmCountries.clear();
         FilmingPanel.updateUI();
     }
@@ -611,7 +617,7 @@ public class hw3 {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "orcl"; // Win: xe, MAC: orcl
+        String dbName = "xe"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
@@ -678,7 +684,6 @@ public class hw3 {
      */
     private String collectQueryGenres() {
         StringBuilder sb = new StringBuilder();
-        String prefix = " (";
         for (JCheckBox cb : selectedGenres) {
             if (cb.isSelected()) {
                 if (sb.length() == 0) {
@@ -737,6 +742,7 @@ public class hw3 {
 
     /*
      * Collect All Query request from each Panel
+     * TODO:  AND//OR also for  different tables?  e.g. between genres , countries and so on
      */
     private String collectAllQueryRequest() {
         StringBuilder select = new StringBuilder();
@@ -790,9 +796,9 @@ public class hw3 {
 
     /*
      * Update and create Country JCheckBox on CountryScrollPanel
-     * AND condition
+     * AND/OR condition
      */
-    private void loadANDCountry() {
+    private void loadCountry() {
         ArrayList<String> checkList = selectCheckBox(AttrType.Genres);
         ResultSet result = null;
 
@@ -806,13 +812,15 @@ public class hw3 {
             sb.append("FROM movie_genres\n");
             sb.append("GROUP BY movieID) select_genre\n");
             sb.append("WHERE select_genre.movieID = loc.movieID AND ");
+            sb.append("(");
             for (int i = 0; i < checkList.size(); i++) {
                 if (i == 0) {
                     sb.append("select_genre.Genres LIKE '%" + checkList.get(i) + "%'\n");
                 } else {
-                    sb.append("AND select_genre.Genres LIKE '%" + checkList.get(i) + "%'\n");
+                    sb.append(searchCondition + " select_genre.Genres LIKE '%" + checkList.get(i) + "%'\n");
                 }
             }
+            sb.append(")");
             GenerateSQLCmdTextArea.setText(sb.toString());
             // connection DB and execute query command
             try {
@@ -848,9 +856,9 @@ public class hw3 {
 
     /*
      * Update and create Film Country JCheckBox on FilmingScrollPanel
-     * AND condition
+     * AND/OR condition in attributes
      */
-    private void loadANDFilmCountry() {
+    private void loadFilmCountry() {
         ArrayList<String> checkGenreList = selectCheckBox(AttrType.Genres);
         ArrayList<String> checkCountryList = selectCheckBox(AttrType.Countries);
         ResultSet result = null;
@@ -867,14 +875,23 @@ public class hw3 {
             sb.append("WHERE select_genre.movieID = cty.movieID AND cty.movieID = loc.movieID AND ");
             for (int i = 0; i < checkGenreList.size(); i++) {
                 if (i == 0) {
+                    sb.append("(");
                     sb.append("select_genre.Genres LIKE '%" + checkGenreList.get(i) + "%'\n");
                 } else {
-                    sb.append("AND select_genre.Genres LIKE '%" + checkGenreList.get(i) + "%'\n");
-                }
-                for (int j = 0; j < checkCountryList.size(); j++) {
-                    sb.append("AND cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
+                    sb.append(searchCondition + " select_genre.Genres LIKE '%" + checkGenreList.get(i) + "%'\n");
                 }
             }
+            sb.append(") ");
+            sb.append("AND ");
+            for (int j = 0; j < checkCountryList.size(); j++) {
+                if (j == 0) {
+                    sb.append("(");
+                    sb.append("cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
+                } else {
+                    sb.append(searchCondition + " cty.country LIKE '%" + checkCountryList.get(j) + "%'\n");
+                }
+            }
+            sb.append(")");
             GenerateSQLCmdTextArea.setText(sb.toString());
             // connection DB and execute query command
             try {
