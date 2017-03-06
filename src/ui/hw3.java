@@ -224,15 +224,23 @@ public class hw3 {
         MovieTagPanel.add(WeightPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         WeightPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         WeightComboBox = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel3 = new DefaultComboBoxModel();
+        defaultComboBoxModel3.addElement("=, <, >, <=, >=");
+        defaultComboBoxModel3.addElement("=");
+        defaultComboBoxModel3.addElement("<");
+        defaultComboBoxModel3.addElement(">");
+        defaultComboBoxModel3.addElement("<=");
+        defaultComboBoxModel3.addElement(">=");
+        WeightComboBox.setModel(defaultComboBoxModel3);
         WeightPanel.add(WeightComboBox, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         WeightValueTextField = new JTextField();
-        WeightPanel.add(WeightValueTextField, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        WeightPanel.add(WeightValueTextField, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 27), null, 0, false));
         WeightLabel = new JLabel();
         WeightLabel.setText("Weight:");
         WeightPanel.add(WeightLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         WeightValueLabel = new JLabel();
         WeightValueLabel.setText("Value:");
-        WeightPanel.add(WeightValueLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        WeightPanel.add(WeightValueLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(35, 27), null, 0, false));
         TagScrollPanel = new JScrollPane();
         MovieTagPanel.add(TagScrollPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         TagScrollPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
@@ -275,10 +283,10 @@ public class hw3 {
         SearchPanel.add(ConditionPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         ConditionPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         ConditionComboBox = new JComboBox();
-        final DefaultComboBoxModel defaultComboBoxModel3 = new DefaultComboBoxModel();
-        defaultComboBoxModel3.addElement("OR");
-        defaultComboBoxModel3.addElement("AND");
-        ConditionComboBox.setModel(defaultComboBoxModel3);
+        final DefaultComboBoxModel defaultComboBoxModel4 = new DefaultComboBoxModel();
+        defaultComboBoxModel4.addElement("OR");
+        defaultComboBoxModel4.addElement("AND");
+        ConditionComboBox.setModel(defaultComboBoxModel4);
         ConditionPanel.add(ConditionComboBox, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         NoteLabel = new JLabel();
         NoteLabel.setText("Step2: Select (Default is OR)");
@@ -856,6 +864,52 @@ public class hw3 {
     }
 
     /*
+     * Collect critics rating and its value by referring to criticsRating and criticValue
+     */
+    private String collectQueryRating() {
+        StringBuilder sb = new StringBuilder();
+        if (!criticRating.equals("=, <, >, <=, >=") && (criticValue != null)) {
+            sb.append("AND (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
+        }
+        return sb.toString();
+    }
+
+    /*
+     * Collect reivew and its value by referring to numOfReview and reviewValue
+     */
+    private String collectQueryReview() {
+        StringBuilder sb = new StringBuilder();
+        if (!numOfReview.equals("=, <, >, <=, >=") && reviewValue != null) {
+            sb.append("AND (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
+        }
+        return sb.toString();
+    }
+
+    /*
+     * Collect movie year by referring to yearFrom
+     */
+    private String collectQueryYear() {
+        StringBuilder sb = new StringBuilder();
+        if (yearFrom != null && yearTo != null) {
+            sb.append("AND (M.year >= " + yearFrom + " AND M.year <= " + yearTo + ")\n");
+        }
+        return sb.toString();
+    }
+
+    /*
+     * Collect Movie Tag weight by referring to weightCombox
+     */
+    private String collectQueryWeight() {
+        StringBuilder sb = new StringBuilder();
+        String weight = WeightComboBox.getSelectedItem().toString();
+        String value = WeightValueTextField.getText();
+        if (!weight.equals("=, <, >, <=, >=") && (value != null)) {
+            sb.append("AND (MT.tagWeight " + weight + " " + value + ")\n");
+        }
+        return sb.toString();
+    }
+
+    /*
      * Collect All Query request from each Panel
      * Use AND to all query condition e.g. AND between genres , countries and so on
      */
@@ -867,7 +921,7 @@ public class hw3 {
         // set up select part
         select.append("SELECT DISTINCT title, G.genre as genre, year, C.country, L.LOC AS filmingLoc,\n");
         // use SQL to calculate average
-        select.append("TRUNC((rtAllCriticsRating+rtTopCriticsRating+rtaudienceRating)/3, 2) AS AvgRating,\n");
+        select.append("TRUNC((rtAllCriticsRating+rtTopCriticsRating+rtAudienceRating)/3, 2) AS AvgRating,\n");
         select.append("TRUNC((rtAllCriticsNumReviews+rtTopCriticsNumReviews+rtAudienceNumRatings)/3, 2) AS AvgReviews\n");
         // set up from part
         from.append("FROM movies M, ");
@@ -878,6 +932,12 @@ public class hw3 {
         // one movie can be more than one genre
         from.append("(SELECT DISTINCT movieID, LISTAGG(genre, ', ') WITHIN GROUP (ORDER BY genre) AS Genre\n");
         from.append("FROM movie_genres GROUP BY movie_genres.movieID) G\n");
+        // movie_tags and tags table
+        from.append("LEFT OUTER JOIN\n");
+        from.append("(SELECT movieID, tagWeight, value\n");
+        from.append("FROM movie_tags mt, tags t\n");
+        from.append("WHERE mt.tagID = t.tagID\n");
+        from.append("GROUP BY movieID) MT on MT.movieID = M.movieID\n");
         // set up where part
         where.append("WHERE M.movieID = G.movieID AND M.movieID = C.movieID AND ");
         where.append("G.movieID = C.movieID AND C.movieID = L.movieID ");
@@ -885,6 +945,8 @@ public class hw3 {
         if (selectedGenres.size() != 0) {
             where.append("AND (\n");
             where.append(collectQueryGenres() + collectQueryCountries() + collectQueryFilming());
+            where.append(collectQueryRating() + collectQueryReview() + collectQueryYear());
+            where.append(collectQueryWeight());
             where.append(")");
         }
 
