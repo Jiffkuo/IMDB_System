@@ -500,6 +500,7 @@ public class hw3 {
         removeAllText();
         RatingComboBox.setSelectedIndex(0);
         ReviewComboBox.setSelectedIndex(0);
+        WeightComboBox.setSelectedIndex(0);
 
         System.out.println("Start to load all Genres data");
         try {
@@ -745,6 +746,7 @@ public class hw3 {
         RatingValueTextField.setText("");
         ReviewValueTextField.setText("");
         TagTextArea.setText("");
+        WeightValueTextField.setText("");
         GenerateSQLCmdTextArea.setText("");
         tModel = new DefaultTableModel(
                 new Object[][]{},
@@ -767,7 +769,7 @@ public class hw3 {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "orcl"; // Win: xe, MAC: orcl
+        String dbName = "xe"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
