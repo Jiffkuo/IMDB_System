@@ -1,3 +1,20 @@
+-- drop index
+DROP INDEX idx_title;
+DROP INDEX idx_year;
+DROP INDEX idx_rtacrating;
+DROP INDEX idx_rttcrating;
+DROP INDEX idx_rtarating;
+DROP INDEX idx_rtacreview;
+DROP INDEX idx_rttcreview;
+DROP INDEX idx_rtaureivew;
+DROP INDEX idx_genres;
+DROP INDEX idx_gmid;
+DROP INDEX idx_cmid;
+DROP INDEX idx_countries;
+DROP INDEX idx_lmid;
+DROP INDEX idx_locations;
+DROP INDEX idx_tid;
+DROP INDEX idx_tmid;
 
 -- drop tables
 DROP TABLE movie_directors;
