@@ -98,11 +98,9 @@ public class Populate {
         int fieldLen = tuple.split("\t").length;
 
         // case1-1: movie_locations inserts five fields but some field data is invalid
-        /*
         if (tableName.equals("movie_locations")) {
             fieldLen = 5;
         }
-        */
         // read each line and insert data
         while ((tuple = bufReader.readLine()) != null) {
             // spilt String by tab
@@ -110,11 +108,13 @@ public class Populate {
             String prefix = "";
             StringBuilder sb = new StringBuilder();
             // case1-2: if data invalid, no insert the data
+            /*
             if (fieldLen != fields.length) {
                 continue;
             }
+            */
             for (int i = 0; i < fieldLen; i++) {
-                String attr = "";
+                String attr = " ";
                 // case2: replace ' symbol because SQL insert format
                 if (i < fields.length && fields[i] != null) {
                     attr = fields[i].replaceAll("'", "''");
