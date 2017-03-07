@@ -56,7 +56,7 @@ public class Populate {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "xe"; // Win: xe, MAC: orcl
+        String dbName = "orcl"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
@@ -107,9 +107,9 @@ public class Populate {
             String[] fields = tuple.split("\t");
             String prefix = "";
             StringBuilder sb = new StringBuilder();
-            // case1-2: if data invalid, no insert the data
+            // case1-2: if only exists one data, no insert that data
             /*
-            if (fieldLen != fields.length) {
+            if (fields.length == 1) {
                 continue;
             }
             */
