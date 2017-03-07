@@ -71,7 +71,6 @@ public class hw3 {
     private JLabel ReviewValueLabel;
     private JLabel ReviewLabel;
     private JPanel ReviewPanel;
-    private JTextArea TagTextArea;
     private JPanel RatingReviewPanel;
     private JScrollPane TagScrollPanel;
     private JLabel TagLabel;
@@ -82,6 +81,9 @@ public class hw3 {
     private JPanel YearFromPanel;
     private JSpinner YearFromSpinner;
     private JPanel YearToPanel;
+    private JPanel TagPanel;
+    private JLabel QueryLabel;
+    private JComboBox QueryComboBox;
     private JSpinner YearToSpinner;
 
     /*
@@ -90,7 +92,9 @@ public class hw3 {
     private ArrayList<JCheckBox> selectedGenres;
     private ArrayList<JCheckBox> selectedCountries;
     private ArrayList<JCheckBox> selectedFilmCountries;
+    private ArrayList<JCheckBox> selectedTags;
     private String searchCondition;
+    private String queryCondition;
     private Connection conn;
     private DefaultTableModel tModel;
     private String criticRating;
@@ -245,11 +249,9 @@ public class hw3 {
         TagScrollPanel = new JScrollPane();
         MovieTagPanel.add(TagScrollPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         TagScrollPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
-        TagTextArea = new JTextArea();
-        TagTextArea.setEditable(false);
-        TagTextArea.setLineWrap(true);
-        TagTextArea.setWrapStyleWord(true);
-        TagScrollPanel.setViewportView(TagTextArea);
+        TagPanel = new JPanel();
+        TagPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        TagScrollPanel.setViewportView(TagPanel);
         TagLabel = new JLabel();
         TagLabel.setText("Movie Tag Value");
         MovieTagPanel.add(TagLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -280,7 +282,7 @@ public class hw3 {
         ButtomPanel.add(SearchPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         SearchPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         ConditionPanel = new JPanel();
-        ConditionPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        ConditionPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
         SearchPanel.add(ConditionPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         ConditionPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         ConditionComboBox = new JComboBox();
@@ -290,8 +292,17 @@ public class hw3 {
         ConditionComboBox.setModel(defaultComboBoxModel4);
         ConditionPanel.add(ConditionComboBox, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         NoteLabel = new JLabel();
-        NoteLabel.setText("Step2: Select (Default is OR)");
+        NoteLabel.setText("Step2: Select to G,C and F");
         ConditionPanel.add(NoteLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        QueryLabel = new JLabel();
+        QueryLabel.setText("Step3: Select to Query");
+        ConditionPanel.add(QueryLabel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        QueryComboBox = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel5 = new DefaultComboBoxModel();
+        defaultComboBoxModel5.addElement("AND");
+        defaultComboBoxModel5.addElement("OR");
+        QueryComboBox.setModel(defaultComboBoxModel5);
+        ConditionPanel.add(QueryComboBox, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ExecutePanel = new JPanel();
         ExecutePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         SearchPanel.add(ExecutePanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -355,7 +366,11 @@ public class hw3 {
         selectedGenres = new ArrayList<>();
         selectedCountries = new ArrayList<>();
         selectedFilmCountries = new ArrayList<>();
+        selectedTags = new ArrayList<>();
+        // condition for Genre, Country and Filming location
         searchCondition = "OR";
+        // condition for eight fields (Genre, Country, location, rating, review, year, tag and weight)
+        queryCondition = "AND";
         // total 8 columns
         tModel = new DefaultTableModel(
                 new Object[][]{},
@@ -391,7 +406,14 @@ public class hw3 {
         ConditionComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                performConditionComboBox(e);
+                performConditionComboBox();
+            }
+        });
+        QueryComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                queryCondition = QueryComboBox.getSelectedItem().toString();
+                System.out.println("[Info] Select to '" + queryCondition + "' for query conditions");
             }
         });
         ExecuteButton.addActionListener(new ActionListener() {
@@ -522,7 +544,7 @@ public class hw3 {
     /*
      * Performance Listener event
      */
-    private void performConditionComboBox(ActionEvent e) {
+    private void performConditionComboBox() {
         searchCondition = ConditionComboBox.getSelectedItem().toString();
         /*
         if (searchCondition == "OR") {
@@ -704,6 +726,27 @@ public class hw3 {
     }
 
     /*
+     * Create Tag JCheckBox on TagPanel
+     */
+    private void updateTagPanel(ResultSet result) throws SQLException {
+        removeTagPanel();
+        if (result == null) {
+            JOptionPane.showMessageDialog(null, "No Tag value found in DB based on the query conditions");
+        }
+        while (result.next()) {
+            TagPanel.setLayout(new GridLayout(0, 1));
+            String text = result.getString(1);
+            if (!text.equals(" ")) { // some movie don't have tags
+                JCheckBox cb = new JCheckBox(text);
+                selectedTags.add(cb);
+                TagPanel.add(cb);
+                TagPanel.revalidate();
+                TagPanel.repaint();
+            }
+        }
+    }
+
+    /*
      * when genre updates to non select, set GenrePanel is invisible
      */
     private void removeGenrePanel() {
@@ -742,10 +785,22 @@ public class hw3 {
         FilmingPanel.updateUI();
     }
 
+    /*
+     * when tag updates to non select, set TagPanel is invisible
+     */
+    private void removeTagPanel() {
+        for (JCheckBox cb : selectedTags) {
+            cb.setVisible(false);
+            TagPanel.remove(cb);
+        }
+        // clean global list and update FilmPanel
+        selectedTags.clear();
+        TagPanel.updateUI();
+    }
+
     private void removeAllText() {
         RatingValueTextField.setText("");
         ReviewValueTextField.setText("");
-        TagTextArea.setText("");
         WeightValueTextField.setText("");
         GenerateSQLCmdTextArea.setText("");
         tModel = new DefaultTableModel(
@@ -860,8 +915,12 @@ public class hw3 {
         String prefix = " (";
         for (JCheckBox cb : selectedFilmCountries) {
             if (cb.isSelected()) {
-                //sb.append(searchCondition + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
-                sb.append("AND" + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
+                if (sb.length() == 0) {
+                    sb.append(queryCondition + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
+                    //sb.append("AND" + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
+                } else {
+                    sb.append(searchCondition + prefix + "L.LOC LIKE '%" + cb.getText() + "%' ");
+                }
                 prefix = " ";
             }
         }
@@ -880,12 +939,32 @@ public class hw3 {
         for (JCheckBox cb : selectedCountries) {
             if (cb.isSelected()) {
                 if (sb.length() == 0) {
-                    //sb.append(searchCondition + prefix + "C.country = '" + cb.getText() + "' ");
-                    sb.append("AND" + prefix + "C.country = '" + cb.getText() + "' ");
+                    sb.append(queryCondition + prefix + "C.country = '" + cb.getText() + "' ");
+                    //sb.append("AND" + prefix + "C.country = '" + cb.getText() + "' ");
                 } else {
                     // Assume one movie can be only produced by one country
-                    sb.append("OR" + prefix + "C.country = '" + cb.getText() + "' ");
+                    sb.append(searchCondition + prefix + "C.country = '" + cb.getText() + "' ");
+                    //sb.append("OR" + prefix + "C.country = '" + cb.getText() + "' ");
                 }
+                prefix = " ";
+            }
+        }
+        if (sb.length() != 0) {
+            sb.append(")\n");
+        }
+        return sb.toString();
+    }
+
+    /*
+    * Collect Query Tag by referring to checkBox
+    */
+    private String collectQueryTags() {
+        StringBuilder sb = new StringBuilder();
+        String prefix = " (";
+        for (JCheckBox cb : selectedTags) {
+            if (cb.isSelected()) {
+                sb.append(queryCondition + prefix + "C.country = '" + cb.getText() + "' ");
+                //sb.append("AND" + prefix + "T.value = '" + cb.getText() + "' ");
                 prefix = " ";
             }
         }
@@ -901,7 +980,8 @@ public class hw3 {
     private String collectQueryRating() {
         StringBuilder sb = new StringBuilder();
         if (!criticRating.equals("=, <, >, <=, >=") && (criticValue != null)) {
-            sb.append("AND (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
+            sb.append(queryCondition + " (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
+            //sb.append("AND (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
         }
         return sb.toString();
     }
@@ -912,7 +992,8 @@ public class hw3 {
     private String collectQueryReview() {
         StringBuilder sb = new StringBuilder();
         if (!numOfReview.equals("=, <, >, <=, >=") && reviewValue != null) {
-            sb.append("AND (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
+            sb.append(queryCondition + " (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
+            //sb.append("AND (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
         }
         return sb.toString();
     }
@@ -923,7 +1004,8 @@ public class hw3 {
     private String collectQueryYear() {
         StringBuilder sb = new StringBuilder();
         if (yearFrom != null && yearTo != null) {
-            sb.append("AND (M.year >= " + yearFrom + " AND M.year <= " + yearTo + ")\n");
+            sb.append(queryCondition + " (M.year >= " + yearFrom + " AND M.year <= " + yearTo + ")\n");
+            //sb.append("AND (M.year >= " + yearFrom + " AND M.year <= " + yearTo + ")\n");
         }
         return sb.toString();
     }
@@ -936,7 +1018,8 @@ public class hw3 {
         String tagWeight = WeightComboBox.getSelectedItem().toString();
         String tagValue = WeightValueTextField.getText();
         if (!tagWeight.equals("=, <, >, <=, >=") && tagValue != null && !tagValue.equals("")) {
-            sb.append("AND (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
+            sb.append(queryCondition + " (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
+            //sb.append("AND (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
         }
         return sb.toString();
     }
@@ -975,10 +1058,10 @@ public class hw3 {
         where.append("G.movieID = C.movieID AND C.movieID = L.movieID ");
         // combine other query information
         if (selectedGenres.size() != 0) {
-            where.append("AND (\n");
+            where.append(queryCondition + " (\n");
             where.append(collectQueryGenres() + collectQueryCountries() + collectQueryFilming());
             where.append(collectQueryRating() + collectQueryReview() + collectQueryYear());
-            where.append(collectQueryWeight());
+            where.append(collectQueryTags() + collectQueryWeight());
             where.append(")");
         }
 
@@ -1160,15 +1243,9 @@ public class hw3 {
         // connection DB and execute query command
         try {
             result = executeQuery(sb.toString());
-            String prefix = "";
-            while (result.next()) {
-                resultsb.append(prefix + result.getString(1));
-                prefix = ", ";
-            }
-            if (resultsb.length() != 0) {
-                TagTextArea.setText(resultsb.toString());
-            } else {
-                TagTextArea.setText("No Movie Tag can be found based on query conditions");
+            updateTagPanel(result);
+            if (selectedTags.size() == 0) {
+                JOptionPane.showMessageDialog(null, "No Tag value found in DB based on the query conditions");
             }
         } catch (SQLException e) {
             e.printStackTrace();
