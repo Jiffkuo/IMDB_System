@@ -437,6 +437,22 @@ public class hw3 {
                 performMovieTag();
             }
         });
+        WeightComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String tagWeight = WeightComboBox.getSelectedItem().toString();
+                System.out.println("[Info]: Tag Weight Selects: " + tagWeight);
+                performMovieTag();
+            }
+        });
+        WeightValueTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String tagValue = WeightValueTextField.getText();
+                System.out.println("[Info]: Tag Weight value: " + tagValue);
+                performMovieTag();
+            }
+        });
 
         // TODO
         YearToSpinner.addChangeListener(new ChangeListener() {
@@ -906,10 +922,10 @@ public class hw3 {
      */
     private String collectQueryWeight() {
         StringBuilder sb = new StringBuilder();
-        String weight = WeightComboBox.getSelectedItem().toString();
-        String value = WeightValueTextField.getText();
-        if (!weight.equals("=, <, >, <=, >=") && (value != null)) {
-            sb.append("AND (MT.tagWeight " + weight + " " + value + ")\n");
+        String tagWeight = WeightComboBox.getSelectedItem().toString();
+        String tagValue = WeightValueTextField.getText();
+        if (!tagWeight.equals("=, <, >, <=, >=") && tagValue != null && !tagValue.equals("")) {
+            sb.append("AND (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
         }
         return sb.toString();
     }
@@ -1115,7 +1131,8 @@ public class hw3 {
         // specify Rating, Review and Year condition
         sb.append("AND M.rtAllCriticsRating " + criticRating + " " + criticValue + " ");
         sb.append("AND M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + " ");
-        sb.append("AND M.year >= " + yearFrom + " AND M.year <= " + yearTo);
+        sb.append("AND M.year >= " + yearFrom + " AND M.year <= " + yearTo + " ");
+        sb.append(collectQueryWeight());
         sb.append("\n");
         // specify genres, countries and locations
         sb.append("AND M.movieID = G.movieID AND M.movieID = C.movieID ");
