@@ -105,3 +105,24 @@ CREATE TABLE movie_directors (
   FOREIGN KEY (movieID) REFERENCES movies(movieID) ON DELETE CASCADE
 );
 
+-- create movie index
+CREATE INDEX idx_title      ON movies(title);
+CREATE INDEX idx_year       ON movies(year);
+CREATE INDEX idx_rtacrating ON movies(rtAllCriticsRating);
+CREATE INDEX idx_rttcrating ON movies(rtTopCriticsRating);
+CREATE INDEX idx_rtarating  ON movies(rtAudienceRating);
+CREATE INDEX idx_rtacreview ON movies(rtAllCriticsNumReviews);
+CREATE INDEX idx_rttcreview ON movies(rtTopCriticsNumReviews);
+CREATE INDEX idx_rtaureivew ON movies(rtAudienceNumRatings);
+-- create movie_genres index
+CREATE INDEX idx_genres     ON movie_genres(genre);
+CREATE INDEX idx_gmid       ON movie_genres(movieID);
+-- create movie_countris index
+CREATE INDEX idx_cmid       ON movie_countries(movieID);
+CREATE INDEX idx_countries  ON movie_countries(country);
+-- create movie_locations index
+CREATE INDEX idx_lmid       ON movie_locations(movieID);
+CREATE INDEX idx_locations  ON movie_locations(location1);
+-- create movie_tags index
+CREATE INDEX idx_tid        ON movie_tags(tagID);
+CREATE INDEX idx_tmid       ON movie_tags(movieID);
