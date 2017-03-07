@@ -9,9 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.Year;
 import java.util.*;
-import java.util.Date;
 
 /**
  * Created by Tzu-Chi Kuo on 2017/3/2.
@@ -35,7 +33,6 @@ public class hw3 {
     private JPanel CriticsPanel;
     private JPanel MovieTagPanel;
     private JPanel RatingPanel;
-    private JPanel YearPanel;
     private JPanel WeightPanel;
     private JScrollPane GeneratedSQLScrollPanel;
     private JPanel SearchPanel;
@@ -62,9 +59,6 @@ public class hw3 {
     private JLabel SearchLabel;
     private JTable QueryResultTable;
     private JLabel QueryResultLabel;
-    private JLabel MovieYearLabel;
-    private JLabel YearFromLabel;
-    private JLabel YearToLabel;
     private JLabel NoteLabel;
     private JPanel GenrePanel;
     private JPanel CountryPanel;
@@ -72,17 +66,22 @@ public class hw3 {
     private JButton LoadButton;
     private JPanel LoadPanel;
     private JLabel FirstStepLabel;
-    private JTextField YearFromTextField;
     private JComboBox ReviewComboBox;
     private JTextField ReviewValueTextField;
     private JLabel ReviewValueLabel;
     private JLabel ReviewLabel;
     private JPanel ReviewPanel;
-    private JTextField YearToTextField;
     private JTextArea TagTextArea;
     private JPanel RatingReviewPanel;
     private JScrollPane TagScrollPanel;
     private JLabel TagLabel;
+    private JLabel YearLabel;
+    private JLabel YearFromLabel;
+    private JLabel YearToLabel;
+    private JPanel YearPanel;
+    private JPanel YearFromPanel;
+    private JSpinner YearFromSpinner;
+    private JPanel YearToPanel;
     private JSpinner YearToSpinner;
 
     /*
@@ -124,7 +123,7 @@ public class hw3 {
         TitleLable.setText("Movie Query Engine");
         MainPanel.add(TitleLable, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         TopPanel = new JPanel();
-        TopPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 5, new Insets(0, 0, 0, 0), -1, -1));
+        TopPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 7, new Insets(0, 0, 0, 0), -1, -1));
         MainPanel.add(TopPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         GenreScrollPanel = new JScrollPane();
         GenreScrollPanel.setHorizontalScrollBarPolicy(30);
@@ -144,34 +143,17 @@ public class hw3 {
         FilmingPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         FilmingScrollPanel.setViewportView(FilmingPanel);
         CriticsPanel = new JPanel();
-        CriticsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        CriticsPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         TopPanel.add(CriticsPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         CriticsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
-        YearPanel = new JPanel();
-        YearPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
-        CriticsPanel.add(YearPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        YearPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
-        MovieYearLabel = new JLabel();
-        MovieYearLabel.setText("Movie Year");
-        YearPanel.add(MovieYearLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        YearFromLabel = new JLabel();
-        YearFromLabel.setText("From");
-        YearPanel.add(YearFromLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        YearToLabel = new JLabel();
-        YearToLabel.setText("To:");
-        YearPanel.add(YearToLabel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        YearFromTextField = new JTextField();
-        YearPanel.add(YearFromTextField, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        YearToTextField = new JTextField();
-        YearPanel.add(YearToTextField, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         RatingReviewPanel = new JPanel();
-        RatingReviewPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        RatingReviewPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         CriticsPanel.add(RatingReviewPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 2, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         RatingReviewPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         RatingPanel = new JPanel();
         RatingPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         RatingReviewPanel.add(RatingPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        RatingPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null));
+        RatingPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         RatingLabel = new JLabel();
         RatingLabel.setText("Critics' Rating");
         RatingPanel.add(RatingLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -196,7 +178,7 @@ public class hw3 {
         ReviewPanel = new JPanel();
         ReviewPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         RatingReviewPanel.add(ReviewPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        ReviewPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null));
+        ReviewPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         ReviewComboBox = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel2 = new DefaultComboBoxModel();
         defaultComboBoxModel2.addElement("=, <, >, <=, >=");
@@ -215,9 +197,28 @@ public class hw3 {
         ReviewLabel = new JLabel();
         ReviewLabel.setText("Num Of Reviews");
         ReviewPanel.add(ReviewLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        YearPanel = new JPanel();
+        YearPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        RatingReviewPanel.add(YearPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        YearPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
+        YearLabel = new JLabel();
+        YearLabel.setText("Movie Year");
+        YearPanel.add(YearLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        YearFromLabel = new JLabel();
+        YearFromLabel.setText("From:");
+        YearPanel.add(YearFromLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        YearFromPanel = new JPanel();
+        YearFromPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        YearPanel.add(YearFromPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        YearToLabel = new JLabel();
+        YearToLabel.setText("To:");
+        YearPanel.add(YearToLabel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        YearToPanel = new JPanel();
+        YearToPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        YearPanel.add(YearToPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         MovieTagPanel = new JPanel();
         MovieTagPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
-        TopPanel.add(MovieTagPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        TopPanel.add(MovieTagPanel, new com.intellij.uiDesigner.core.GridConstraints(1, 4, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         MovieTagPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         WeightPanel = new JPanel();
         WeightPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -260,7 +261,7 @@ public class hw3 {
         TopPanel.add(CountryLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         FilmingLabel = new JLabel();
         FilmingLabel.setText("Filming Location");
-        TopPanel.add(FilmingLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        TopPanel.add(FilmingLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         OptionLabel = new JLabel();
         OptionLabel.setText("Option");
         TopPanel.add(OptionLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 3, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -365,11 +366,21 @@ public class hw3 {
         );
         QueryResultTable.setModel(tModel);
         // set up Year range
+        // Year From
+        int yrrange = 150;
+        YearFromPanel.setLayout(new FlowLayout());
         Calendar calendar = Calendar.getInstance();
         int curyear = calendar.get(Calendar.YEAR);
-        SpinnerModel yearmodel = new SpinnerNumberModel(curyear, curyear - 100, curyear + 100, 1);
-        YearToSpinner = new JSpinner(yearmodel);
+        SpinnerModel yearfrommodel = new SpinnerNumberModel(curyear - yrrange, curyear - yrrange, curyear, 1);
+        YearFromSpinner = new JSpinner(yearfrommodel);
+        YearFromSpinner.setEditor(new JSpinner.NumberEditor(YearFromSpinner, "#"));
+        YearFromPanel.add(YearFromSpinner);
+        // Year To
+        YearToPanel.setLayout(new FlowLayout());
+        SpinnerModel yeartomodel = new SpinnerNumberModel(curyear, curyear - yrrange, curyear, 1);
+        YearToSpinner = new JSpinner(yeartomodel);
         YearToSpinner.setEditor(new JSpinner.NumberEditor(YearToSpinner, "#"));
+        YearToPanel.add(YearToSpinner);
 
         LoadButton.addActionListener(new ActionListener() {
             @Override
@@ -421,22 +432,6 @@ public class hw3 {
                 performMovieTag();
             }
         });
-        YearFromTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                yearFrom = YearFromTextField.getText();
-                System.out.println("[Info]: Year From : " + yearFrom);
-                performMovieTag();
-            }
-        });
-        YearToTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                yearTo = YearToTextField.getText();
-                System.out.println("[Info]: Year To: " + yearTo);
-                performMovieTag();
-            }
-        });
         WeightComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -453,8 +448,16 @@ public class hw3 {
                 performMovieTag();
             }
         });
-
-        // TODO
+        YearFromSpinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                yearFrom = String.valueOf(YearFromSpinner.getValue());
+                if (!yearFrom.isEmpty()) {
+                    System.out.println("[Info]: Year From : " + yearFrom);
+                    performMovieTag();
+                }
+            }
+        });
         YearToSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -477,11 +480,11 @@ public class hw3 {
         // initialize UI framework
         JFrame frame = new JFrame("hw3");
         frame.setContentPane(new hw3().MainPanel);
+        performLoadButton();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
-        performLoadButton();
         //while (true) ;
     }
 
@@ -741,10 +744,16 @@ public class hw3 {
     private void removeAllText() {
         RatingValueTextField.setText("");
         ReviewValueTextField.setText("");
-        YearFromTextField.setText("");
-        YearToTextField.setText("");
         TagTextArea.setText("");
         GenerateSQLCmdTextArea.setText("");
+        tModel = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                        "#", "title", "genre", "year", "country",
+                        "filming locations", "AvgOfRating", "AvgOfReview"
+                }
+        );
+        QueryResultTable.setModel(tModel);
     }
 
     /*
@@ -758,7 +767,7 @@ public class hw3 {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "xe"; // Win: xe, MAC: orcl
+        String dbName = "orcl"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
@@ -947,11 +956,11 @@ public class hw3 {
         // set up from part
         from.append("FROM movies M, ");
         // one movie can be more than one filming location country
-        from.append("(SELECT DISTINCT movieID, LISTAGG(location1, ',') WITHIN GROUP (ORDER BY location1) AS LOC\n");
+        from.append("(SELECT DISTINCT movieID, LISTAGG(location1, ',') WITHIN GROUP (ORDER BY location1 DESC) AS LOC\n");
         from.append("FROM (SELECT DISTINCT location1, movieID FROM movie_locations) LOC2\n");
         from.append("GROUP BY LOC2.movieID) L, movie_countries C,\n");
         // one movie can be more than one genre
-        from.append("(SELECT DISTINCT movieID, LISTAGG(genre, ', ') WITHIN GROUP (ORDER BY genre) AS Genre\n");
+        from.append("(SELECT DISTINCT movieID, LISTAGG(genre, ', ') WITHIN GROUP (ORDER BY genre DESC) AS Genre\n");
         from.append("FROM movie_genres GROUP BY movie_genres.movieID) G\n");
         // movie_tags and tags table
         from.append("LEFT OUTER JOIN\n");
@@ -1142,7 +1151,7 @@ public class hw3 {
         if (selectedGenres.size() != 0) {
             sb.append("AND (\n");
             sb.append(collectQueryGenres() + collectQueryCountries() + collectQueryFilming());
-            sb.append(")");
+            sb.append(") ORDER BY T.value");
         }
         // show the query command
         GenerateSQLCmdTextArea.setText(sb.toString());
