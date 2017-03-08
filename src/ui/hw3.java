@@ -512,6 +512,7 @@ public class hw3 {
         removeGenrePanel();
         removeCountryPanel();
         removeFilmCountryPanel();
+        removeTagPanel();
         removeAllText();
         RatingComboBox.setSelectedIndex(0);
         ReviewComboBox.setSelectedIndex(0);
@@ -606,12 +607,11 @@ public class hw3 {
      */
     private void performMovieTag() {
         if (selectedGenres.size() != 0 && selectedCountries.size() != 0 && selectedFilmCountries.size() != 0) {
-            if (!criticRating.equals("=, <, >, <=, >=")
-                    && (criticValue != null)
-                    && !numOfReview.equals("=, <, >, <=, >=")
-                    && (reviewValue != null)
-                    && (yearFrom != null) && (yearTo != null)) {
-                loadMovieTag();
+            if ((criticRating != null && criticValue != null) && (numOfReview != null && reviewValue != null)
+                    && (yearFrom != null && yearTo != null)) {
+                if (!criticRating.equals(("=, <, >, <=, >=")) && !numOfReview.equals(("=, <, >, <=, >="))) {
+                    loadMovieTag();
+                }
             }
         }
     }
