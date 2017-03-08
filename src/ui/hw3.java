@@ -954,8 +954,12 @@ public class hw3 {
         String prefix = " (";
         for (JCheckBox cb : selectedTags) {
             if (cb.isSelected()) {
-                sb.append(queryCondition + prefix + "C.country = '" + cb.getText() + "' ");
-                //sb.append("AND" + prefix + "T.value = '" + cb.getText() + "' ");
+                if (sb.length() == 0) {
+                    sb.append(queryCondition + prefix + "MT.value = '" + cb.getText() + "' ");
+                    //sb.append("AND" + prefix + "MT.value = '" + cb.getText() + "' ");
+                } else {
+                    sb.append(searchCondition + prefix + "MT.value = '" + cb.getText() + "' ");
+                }
                 prefix = " ";
             }
         }
@@ -978,7 +982,7 @@ public class hw3 {
     }
 
     /*
-     * Collect reivew and its value by referring to numOfReview and reviewValue
+     * Collect review and its value by referring to numOfReview and reviewValue
      */
     private String collectQueryReview() {
         StringBuilder sb = new StringBuilder();
