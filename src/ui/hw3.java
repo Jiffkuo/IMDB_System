@@ -386,6 +386,9 @@ public class hw3 {
         YearToSpinner.setEditor(new JSpinner.NumberEditor(YearToSpinner, "#"));
         YearToPanel.add(YearToSpinner);
 
+        // preload genre in panel
+        performLoadButton();
+
         LoadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -493,7 +496,6 @@ public class hw3 {
         // initialize UI framework
         JFrame frame = new JFrame("hw3");
         frame.setContentPane(new hw3().MainPanel);
-        performLoadButton();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -815,7 +817,7 @@ public class hw3 {
         // hard-coded configuration to connect DB server
         String host = "localhost";
         String port = "1521";
-        String dbName = "xe"; // Win: xe, MAC: orcl
+        String dbName = "orcl"; // Win: xe, MAC: orcl
         String uName = "hr";
         String pWord = "hr";
 
@@ -974,9 +976,11 @@ public class hw3 {
      */
     private String collectQueryRating() {
         StringBuilder sb = new StringBuilder();
-        if (!criticRating.equals("=, <, >, <=, >=") && (criticValue != null)) {
-            sb.append(queryCondition + " (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
-            //sb.append("AND (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
+        if (criticRating != null && criticValue != null) {
+            if (!criticRating.equals("=, <, >, <=, >=") && !criticValue.equals("")) {
+                sb.append(queryCondition + " (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
+                //sb.append("AND (M.rtAllCriticsRating " + criticRating + " " + criticValue + ")\n");
+            }
         }
         return sb.toString();
     }
@@ -986,9 +990,11 @@ public class hw3 {
      */
     private String collectQueryReview() {
         StringBuilder sb = new StringBuilder();
-        if (!numOfReview.equals("=, <, >, <=, >=") && reviewValue != null) {
-            sb.append(queryCondition + " (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
-            //sb.append("AND (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
+        if (numOfReview != null && reviewValue != null) {
+            if (!numOfReview.equals("=, <, >, <=, >=") && !reviewValue.equals("")) {
+                sb.append(queryCondition + " (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
+                //sb.append("AND (M.rtAllCriticsNumReviews " + numOfReview + " " + reviewValue + ")\n");
+            }
         }
         return sb.toString();
     }
@@ -1012,9 +1018,11 @@ public class hw3 {
         StringBuilder sb = new StringBuilder();
         String tagWeight = WeightComboBox.getSelectedItem().toString();
         String tagValue = WeightValueTextField.getText();
-        if (!tagWeight.equals("=, <, >, <=, >=") && tagValue != null && !tagValue.equals("")) {
-            sb.append(queryCondition + " (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
-            //sb.append("AND (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
+        if (tagWeight != null && tagValue != null) {
+            if (!tagWeight.equals("=, <, >, <=, >=") && !tagValue.equals("")) {
+                sb.append(queryCondition + " (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
+                //sb.append("AND (MT.tagWeight " + tagWeight + " " + tagValue + ")\n");
+            }
         }
         return sb.toString();
     }
@@ -1036,11 +1044,11 @@ public class hw3 {
         // set up from part
         from.append("FROM movies M, ");
         // one movie can be more than one filming location country
-        from.append("(SELECT DISTINCT movieID, LISTAGG(location1, ',') WITHIN GROUP (ORDER BY location1 DESC) AS LOC\n");
+        from.append("(SELECT DISTINCT movieID, LISTAGG(location1, ',') WITHIN GROUP (ORDER BY location1) AS LOC\n");
         from.append("FROM (SELECT DISTINCT location1, movieID FROM movie_locations) LOC2\n");
         from.append("GROUP BY LOC2.movieID) L, movie_countries C,\n");
         // one movie can be more than one genre
-        from.append("(SELECT DISTINCT movieID, LISTAGG(genre, ', ') WITHIN GROUP (ORDER BY genre DESC) AS Genre\n");
+        from.append("(SELECT DISTINCT movieID, LISTAGG(genre, ', ') WITHIN GROUP (ORDER BY genre) AS Genre\n");
         from.append("FROM movie_genres GROUP BY movie_genres.movieID) G\n");
         // movie_tags and tags table
         from.append("LEFT OUTER JOIN\n");
